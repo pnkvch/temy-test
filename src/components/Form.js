@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const Form = () => {
   const [cities, setCities] = useState([]);
@@ -55,8 +56,29 @@ const Form = () => {
     }
   };
 
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    const Data = {
+      firstName: firstName,
+      email: email,
+      country: country,
+      state: state,
+      city: city,
+      phone: phone,
+      adress: adress === "" ? null : adress,
+      aboutMe: aboutMe === "" ? null : aboutMe
+    };
+
+    axios({
+      method: "post",
+      url: url + "/users",
+      data: Data
+    }).then(x => console.log(x));
+  };
+
   return (
-    <form className="form">
+    <form className="form" onSubmit={handleSubmit}>
       <p>First Name *</p>
       <input
         type="text"
@@ -81,7 +103,7 @@ const Form = () => {
         <option hidden>-- select an option --</option>
         {countries.map(item => {
           return (
-            <option key={item.id} value={item.name}>
+            <option key={item.id} value={item.id}>
               {item.name}
             </option>
           );
@@ -97,7 +119,7 @@ const Form = () => {
         <option hidden>-- select an option --</option>
         {states.map(item => {
           return (
-            <option key={item.id} value={item.name}>
+            <option key={item.id} value={item.id}>
               {item.name}
             </option>
           );
@@ -113,7 +135,7 @@ const Form = () => {
         <option hidden>-- select an option --</option>
         {cities.map(item => {
           return (
-            <option key={item.id} value={item.name}>
+            <option key={item.id} value={item.id}>
               {item.name}
             </option>
           );
@@ -130,7 +152,6 @@ const Form = () => {
       />
       <p>Adress</p>
       <input
-        required
         placeholder="Adress"
         name="adress"
         value={adress}
