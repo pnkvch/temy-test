@@ -56,21 +56,29 @@ const Form = () => {
   };
 
   return (
-    <div className="form">
-      <input name="firstName" value={firstName} onChange={handleChange} />
-      <input name="email" value={email} onChange={handleChange} />
-      <select name="city" value={city} onChange={handleChange}>
-        <option>--</option>
-        {cities.map(item => {
-          return (
-            <option key={item.id} value={item.name}>
-              {item.name}
-            </option>
-          );
-        })}
-      </select>
-      <select name="country" value={country} onChange={handleChange}>
-        <option>--</option>
+    <form className="form">
+      <p>First Name *</p>
+      <input
+        type="text"
+        placeholder="First Name"
+        required
+        pattern="[a-zA-Z]+"
+        name="firstName"
+        value={firstName}
+        onChange={handleChange}
+      />
+      <p>E-Mail Adress</p>
+      <input
+        placeholder="E-Mail"
+        type="email"
+        required
+        name="email"
+        value={email}
+        onChange={handleChange}
+      />
+      <p>Country</p>
+      <select name="country" value={country} onChange={handleChange} required>
+        <option hidden>-- select an option --</option>
         {countries.map(item => {
           return (
             <option key={item.id} value={item.name}>
@@ -79,8 +87,14 @@ const Form = () => {
           );
         })}
       </select>
-      <select name="state" value={state} onChange={handleChange}>
-        <option>--</option>
+      <select
+        name="state"
+        required
+        value={state}
+        onChange={handleChange}
+        style={country === "" ? { display: "none" } : { display: "block" }}
+      >
+        <option hidden>-- select an option --</option>
         {states.map(item => {
           return (
             <option key={item.id} value={item.name}>
@@ -89,10 +103,49 @@ const Form = () => {
           );
         })}
       </select>
-      <input name="phone" value={phone} onChange={handleChange} />
-      <input name="adress" value={adress} onChange={handleChange} />
-      <textarea name="aboutMe" value={aboutMe} onChange={handleChange} />
-    </div>
+      <select
+        name="city"
+        required
+        value={city}
+        onChange={handleChange}
+        style={state === "" ? { display: "none" } : { display: "block" }}
+      >
+        <option hidden>-- select an option --</option>
+        {cities.map(item => {
+          return (
+            <option key={item.id} value={item.name}>
+              {item.name}
+            </option>
+          );
+        })}
+      </select>
+      <p>Phone Number</p>
+      <input
+        required
+        pattern="\d+"
+        placeholder="Phone Number"
+        name="phone"
+        value={phone}
+        onChange={handleChange}
+      />
+      <p>Adress</p>
+      <input
+        required
+        placeholder="Adress"
+        name="adress"
+        value={adress}
+        onChange={handleChange}
+      />
+      <p>About Me</p>
+      <textarea
+        placeholder="About Me"
+        name="aboutMe"
+        maxLength="500"
+        value={aboutMe}
+        onChange={handleChange}
+      />
+      <button>Submit</button>
+    </form>
   );
 };
 
