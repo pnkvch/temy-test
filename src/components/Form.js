@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const Form = () => {
+const Form = ({ setUsersChanged }) => {
   const [cities, setCities] = useState([]);
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
@@ -70,6 +70,7 @@ const Form = () => {
       body: JSON.stringify(data)
     });
     clearState();
+    setUsersChanged(true);
   };
 
   return (

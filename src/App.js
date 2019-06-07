@@ -4,16 +4,18 @@ import Form from "./components/Form";
 
 const App = () => {
   const [users, setUsers] = useState([]);
+  const [usersChanged, setUsersChanged] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:3001/users")
       .then(x => x.json())
       .then(y => setUsers(y));
-  }, [setUsers]);
+    setUsersChanged(false);
+  }, [usersChanged]);
 
   return (
     <div className="App">
-      <Form />
+      <Form setUsersChanged={setUsersChanged} />
       <div>
         {users.map(item => {
           return (
