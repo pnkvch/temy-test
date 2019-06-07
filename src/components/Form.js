@@ -148,6 +148,8 @@ const Form = ({ cities, countries, states }) => {
         onChange={handleChange}
       />
       <button>Submit</button>
+
+      <p>Fields with * are required</p>
     </form>
   );
 };
