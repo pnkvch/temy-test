@@ -1,19 +1,29 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 
 const Form = () => {
   const [cities, setCities] = useState([]);
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
-  const [firstName, setFirstName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [adress, setAdress] = useState("");
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
-  const [state, setState] = useState("");
-  const [aboutMe, setAboutMe] = useState("");
+  const initialState = {
+    firstName: "",
+    email: "",
+    phone: "",
+    address: "",
+    city: "",
+    country: "",
+    state: "",
+    aboutMe: ""
+  };
+
+  const [
+    { firstName, email, phone, address, city, country, state, aboutMe },
+    setState
+  ] = useState(initialState);
+
   const url = "http://localhost:3001";
+  const clearState = () => {
+    setState({ ...initialState });
+  };
 
   useEffect(() => {
     fetch(url + "/cities")
@@ -34,47 +44,32 @@ const Form = () => {
   }, []);
 
   const handleChange = e => {
-    switch (e.target.name) {
-      case "firstName":
-        return setFirstName(e.target.value);
-      case "email":
-        return setEmail(e.target.value);
-      case "phone":
-        return setPhone(e.target.value);
-      case "adress":
-        return setAdress(e.target.value);
-      case "city":
-        return setCity(e.target.value);
-      case "country":
-        return setCountry(e.target.value);
-      case "state":
-        return setState(e.target.value);
-      case "aboutMe":
-        return setAboutMe(e.target.value);
-      default:
-        return console.log("Doesn't exist");
-    }
+    const { name, value } = e.target;
+    setState(prevState => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    const Data = {
-      firstName: firstName,
+    const data = {
+      name: firstName,
       email: email,
-      country: country,
-      state: state,
-      city: city,
-      phone: phone,
-      adress: adress === "" ? null : adress,
-      aboutMe: aboutMe === "" ? null : aboutMe
+      phone_number: phone,
+      address: address === "" ? null : address,
+      about_me: aboutMe === "" ? null : aboutMe,
+      country_id: country,
+      state_id: state,
+      city_id: city
     };
 
-    axios({
+    fetch(url + "/users", {
       method: "post",
-      url: url + "/users",
-      data: Data
-    }).then(x => console.log(x));
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    clearState();
   };
 
   return (
@@ -154,7 +149,7 @@ const Form = () => {
       <input
         placeholder="Adress"
         name="adress"
-        value={adress}
+        value={address}
         onChange={handleChange}
       />
       <p>About Me</p>

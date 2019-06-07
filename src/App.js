@@ -9,7 +9,7 @@ const App = () => {
     fetch("http://localhost:3001/users")
       .then(x => x.json())
       .then(y => setUsers(y));
-  }, []);
+  }, [setUsers]);
 
   return (
     <div className="App">
