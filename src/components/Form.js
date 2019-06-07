@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { FormContext } from "../FormContext";
 
-const Form = ({ setUsersChanged, cities, countries, states }) => {
+const Form = ({ cities, countries, states }) => {
+  const [usersChanged, setUsersChanged] = useContext(FormContext);
   const initialState = {
     firstName: "",
     email: "",
@@ -63,7 +65,7 @@ const Form = ({ setUsersChanged, cities, countries, states }) => {
         value={firstName}
         onChange={handleChange}
       />
-      <p>E-Mail Adress</p>
+      <p>E-Mail Adress *</p>
       <input
         placeholder="E-Mail"
         type="email"
@@ -72,9 +74,11 @@ const Form = ({ setUsersChanged, cities, countries, states }) => {
         value={email}
         onChange={handleChange}
       />
-      <p>Country</p>
-      <select name="country" value={country} onChange={handleChange} required>
-        <option hidden>-- select an option --</option>
+      <p>Country *</p>
+      <select required name="country" value={country} onChange={handleChange}>
+        <option hidden value="">
+          -- select an option --
+        </option>
         {countries.map(item => {
           return (
             <option key={item.id} value={item.id}>
@@ -90,7 +94,9 @@ const Form = ({ setUsersChanged, cities, countries, states }) => {
         onChange={handleChange}
         style={country === "" ? { display: "none" } : { display: "block" }}
       >
-        <option hidden>-- select an option --</option>
+        <option hidden value="">
+          -- select an option --
+        </option>
         {states.map(item => {
           return (
             <option key={item.id} value={item.id}>
@@ -106,7 +112,9 @@ const Form = ({ setUsersChanged, cities, countries, states }) => {
         onChange={handleChange}
         style={state === "" ? { display: "none" } : { display: "block" }}
       >
-        <option hidden>-- select an option --</option>
+        <option hidden value="">
+          -- select an option --
+        </option>
         {cities.map(item => {
           return (
             <option key={item.id} value={item.id}>
@@ -115,7 +123,7 @@ const Form = ({ setUsersChanged, cities, countries, states }) => {
           );
         })}
       </select>
-      <p>Phone Number</p>
+      <p>Phone Number *</p>
       <input
         required
         pattern="\d+"

@@ -1,72 +1,57 @@
-import React, { useState, useEffect } from "react";
+import React, { Component } from "react";
 import "./App.css";
 import Form from "./components/Form";
+import Users from "./components/Users";
+import { FormProvider } from "./FormContext";
 
-const App = () => {
-  const [cities, setCities] = useState([]);
-  const [countries, setCountries] = useState([]);
-  const [states, setStates] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [usersChanged, setUsersChanged] = useState(false);
-  const url = "http://localhost:3001";
-
-  useEffect(() => {
-    fetch(url + "/cities")
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      cities: [],
+      countries: [],
+      states: [],
+      users: [],
+      usersChanged: false,
+      url: "http://localhost:3001"
+    };
+  }
+  componentDidMount() {
+    fetch(this.state.url + "/countries")
       .then(x => x.json())
       .then(data => {
-        setCities(data);
+        this.setState({ countries: data });
       });
-    fetch(url + "/countries")
+    fetch(this.state.url + "/states")
       .then(x => x.json())
       .then(data => {
-        setCountries(data);
+        this.setState({ states: data });
       });
-    fetch(url + "/states")
+    fetch(this.state.url + "/cities")
       .then(x => x.json())
       .then(data => {
-        setStates(data);
+        this.setState({ cities: data });
       });
-    fetch("http://localhost:3001/users")
-      .then(x => x.json())
-      .then(y => setUsers(y));
-    setUsersChanged(false);
-  }, [usersChanged]);
+  }
 
-  return (
-    <div className="App">
-      <Form
-        setUsersChanged={setUsersChanged}
-        cities={cities}
-        countries={countries}
-        states={states}
-      />
-      <div>
-        {users.map(item => {
-          let created = new Date(item.createdAt);
-          let country = countries.filter(x => {
-            return x.id === item.country_id;
-          });
-          let state = states.filter(x => {
-            return x.id === item.state_id;
-          });
-          let city = cities.filter(x => {
-            return x.id === item.city_id;
-          });
-          return (
-            <div key={item.id}>
-              <p>{item.name}</p>
-              <p>{item.email}</p>
-              <p>{item.phone_number}</p>
-              <p>{country.name}</p>
-              <p>{state[0].name}</p>
-              <p>{city[0].name}</p>
-              <p>{created.toString()}</p>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-};
+  render() {
+    return (
+      <FormProvider>
+        <div className="App">
+          <Form
+            cities={this.state.cities}
+            countries={this.state.countries}
+            states={this.state.states}
+          />
+          <Users
+            cities={this.state.cities}
+            countries={this.state.countries}
+            states={this.state.states}
+          />
+        </div>
+      </FormProvider>
+    );
+  }
+}
 
 export default App;
