@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { FormContext } from "../FormContext";
 
 const Form = ({ cities, countries, states }) => {
+  // eslint-disable-next-line
   const [usersChanged, setUsersChanged] = useContext(FormContext);
   const initialState = {
     firstName: "",
