@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-const Form = ({ setUsersChanged }) => {
-  const [cities, setCities] = useState([]);
-  const [countries, setCountries] = useState([]);
-  const [states, setStates] = useState([]);
+const Form = ({ setUsersChanged, cities, countries, states }) => {
   const initialState = {
     firstName: "",
     email: "",
@@ -20,28 +17,9 @@ const Form = ({ setUsersChanged }) => {
     setState
   ] = useState(initialState);
 
-  const url = "http://localhost:3001";
   const clearState = () => {
     setState({ ...initialState });
   };
-
-  useEffect(() => {
-    fetch(url + "/cities")
-      .then(x => x.json())
-      .then(data => {
-        setCities(data);
-      });
-    fetch(url + "/countries")
-      .then(x => x.json())
-      .then(data => {
-        setCountries(data);
-      });
-    fetch(url + "/states")
-      .then(x => x.json())
-      .then(data => {
-        setStates(data);
-      });
-  }, []);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -62,7 +40,7 @@ const Form = ({ setUsersChanged }) => {
       city_id: city
     };
 
-    fetch(url + "/users", {
+    fetch("http://localhost:3001/users", {
       method: "post",
       headers: {
         "Content-type": "application/json"
