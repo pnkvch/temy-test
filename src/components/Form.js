@@ -148,8 +148,8 @@ const Form = ({ setUsersChanged }) => {
       />
       <p>Adress</p>
       <input
-        placeholder="Adress"
-        name="adress"
+        placeholder="Address"
+        name="address"
         value={address}
         onChange={handleChange}
       />

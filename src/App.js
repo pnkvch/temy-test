@@ -18,11 +18,13 @@ const App = () => {
       <Form setUsersChanged={setUsersChanged} />
       <div>
         {users.map(item => {
+          let created = new Date(item.createdAt);
           return (
             <div>
               <p>{item.name}</p>
               <p>{item.email}</p>
               <p>{item.phone_number}</p>
+              <p>{created.toString()}</p>
             </div>
           );
         })}
