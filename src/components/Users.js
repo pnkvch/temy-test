@@ -1,25 +1,29 @@
 import React, { useEffect, useState, useContext } from "react";
 import { FormContext } from "../FormContext";
 
-const Users = ({ cities, countries, states }) => {
+const Users = ({ cities, countries, states, users }) => {
   const [usersChanged, setUsersChanged] = useContext(FormContext);
-  const [users, setUsers] = useState([]);
+  const [newUsers, setNewUsers] = useState([]);
 
   const fetchData = async () => {
     await fetch("http://localhost:3001/users")
       .then(x => x.json())
-      .then(y => setUsers(y))
+      .then(y => setNewUsers(y))
       .catch(err => console.log(err));
   };
 
   useEffect(() => {
-    fetchData();
-    setUsersChanged(false);
-  }, [setUsersChanged, usersChanged]);
+    if (usersChanged === false) {
+      setNewUsers(users);
+    } else {
+      fetchData();
+      setUsersChanged(false);
+    }
+  }, [setUsersChanged, users, usersChanged]);
 
   return (
     <div>
-      {users.map(item => {
+      {newUsers.map(item => {
         let created = new Date(item.createdAt);
         let country = countries.filter(x => {
           return x.id === item.country_id;
