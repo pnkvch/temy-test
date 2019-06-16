@@ -50,7 +50,6 @@ class App extends Component {
             cities={this.state.cities}
             countries={this.state.countries}
             states={this.state.states}
-            users={this.state.users}
           />
         </div>
       </FormProvider>
